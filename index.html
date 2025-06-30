@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemesanan Makanan - Restoran Lezat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.dark-theme {
+            background-color: #222;
+            color: #fff;
+        }
+        body.dark-theme .navbar {
+            background-color: #1a1a1a !important;
+        }
+        body.dark-theme .card {
+            background-color: #333;
+            color: #fff;
+        }
+        body.dark-theme .list-group-item {
+            background-color: #444;
+            color: #fff;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .list-group-item {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .list-group-item:hover {
+            background-color: #f0f0f0;
+        }
+        body.dark-theme .list-group-item:hover {
+            background-color: #555;
+        }
+        .menu-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Restoran Lezat</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <button id="theme-toggle" class="btn btn-outline-light me-2">Ganti Tema</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="login-btn" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#loginModal">Login Admin</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Modal Login Admin -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login Admin</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="admin-username" class="form-label">Username</label>
+                        <input type="text" id="admin-username" class="form-control" placeholder="Masukkan username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="admin-password" class="form-label">Password</label>
+                        <input type="password" id="admin-password" class="form-control" placeholder="Masukkan password">
+                    </div>
+                    <div id="login-error" class="text-danger d-none">Username atau password salah!</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" id="submit-login" class="btn btn-primary">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Pemesanan Makanan Online</h1>
+
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="buyer-tab" data-bs-toggle="tab" data-bs-target="#buyer" type="button" role="tab">Pembeli</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab">Admin</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <!-- Panel Pembeli -->
+            <div class="tab-pane fade show active" id="buyer" role="tabpanel">
+                <h3>Daftar Menu</h3>
+                <ul class="nav nav-pills mb-3" id="menuTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="all-tab" data-bs-toggle="pill" data-bs-target="#all" type="button" role="tab">Semua</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="makanan-tab" data-bs-toggle="pill" data-bs-target="#makanan" type="button" role="tab">Makanan</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="minuman-tab" data-bs-toggle="pill" data-bs-target="#minuman" type="button" role="tab">Minuman</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="dessert-tab" data-bs-toggle="pill" data-bs-target="#dessert" type="button" role="tab">Makanan Penutup</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="menuTabContent">
+                    <div class="tab-pane fade show active" id="all" role="tabpanel">
+                        <div id="menu-all" class="row"></div>
+                    </div>
+                    <div class="tab-pane fade" id="makanan" role="tabpanel">
+                        <div id="menu-makanan" class="row"></div>
+                    </div>
+                    <div class="tab-pane fade" id="minuman" role="tabpanel">
+                        <div id="menu-minuman" class="row"></div>
+                    </div>
+                    <div class="tab-pane fade" id="dessert" role="tabpanel">
+                        <div id="menu-dessert" class="row"></div>
+                    </div>
+                </div>
+                <h3 class="mt-4">Keranjang</h3>
+                <div class="mb-3">
+                    <label for="customer-name" class="form-label">Nama Pelanggan</label>
+                    <input type="text" id="customer-name" class="form-control" placeholder="Masukkan nama Anda">
+                </div>
+                <div id="cart" class="card p-4 mb-4"></div>
+                <button id="place-order-btn" class="btn btn-primary mb-4">Pesan Sekarang</button>
+                <h3>Pesanan Saya</h3>
+                <div id="buyer-orders" class="list-group"></div>
+            </div>
+            <!-- Panel Admin -->
+            <div class="tab-pane fade" id="admin" role="tabpanel">
+                <h3>Daftar Pesanan</h3>
+                <div id="admin-orders" class="list-group"></div>
+            </div>
+        </div>
+
+        <div id="loading" class="text-center d-none mt-4">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Memuat...</span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-primary text-white text-center py-3 mt-5">
+        <p>© 2025 Restoran Lezat. Dibuat untuk pemesanan makanan online.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // JSONBin.io Configuration (Ganti dengan Bin ID dan Secret Key Anda)
+        const JSONBIN_URL = 'https://api.jsonbin.io/v3/b/68620a988960c979a5b43337'; // Contoh: https://api.jsonbin.io/v3/b/123456789
+        const JSONBIN_SECRET_KEY = '$2a$10$zTy9l1VFkMjbE88RFz8QW.vcNao25h6UCa0kd3YjS7QoJyJykJX/S'; // Dapatkan dari JSONBin.io
+
+        // Data menu statis
+        const menu = [
+            { id: 1, name: "Nasi Goreng", price: 25000, category: "makanan", image: "https://placekitten.com/200/150" },
+            { id: 2, name: "Ayam Bakar", price: 30000, category: "makanan", image: "https://placekitten.com/200/151" },
+            { id: 3, name: "Soto Ayam", price: 20000, category: "makanan", image: "https://placekitten.com/200/152" },
+            { id: 4, name: "Rendang", price: 35000, category: "makanan", image: "https://placekitten.com/200/153" },
+            { id: 5, name: "Es Teh", price: 10000, category: "minuman", image: "https://placekitten.com/200/154" },
+            { id: 6, name: "Jus Jeruk", price: 12000, category: "minuman", image: "https://placekitten.com/200/155" },
+            { id: 7, name: "Kopi Susu", price: 15000, category: "minuman", image: "https://placekitten.com/200/156" },
+            { id: 8, name: "Teh Tarik", price: 13000, category: "minuman", image: "https://placekitten.com/200/157" },
+            { id: 9, name: "Puding Cokelat", price: 18000, category: "dessert", image: "https://placekitten.com/200/158" },
+            { id: 10, name: "Es Krim Vanila", price: 20000, category: "dessert", image: "https://placekitten.com/200/159" },
+            { id: 11, name: "Kue Lapis", price: 15000, category: "dessert", image: "https://placekitten.com/200/160" },
+            { id: 12, name: "Pisang Goreng", price: 12000, category: "dessert", image: "https://placekitten.com/200/161" }
+        ];
+
+        // Data admin
+        const adminCredentials = { username: "admin", password: "admin123" };
+        let isAdminLoggedIn = false;
+        let cart = [];
+
+        // Fungsi untuk fetch dengan timeout
+        async function fetchWithTimeout(url, options, timeout = 10000) {
+            return Promise.race([
+                fetch(url, options),
+                new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Permintaan ke API terlalu lama (timeout)')), timeout)
+                )
+            ]);
+        }
+
+        // Fungsi untuk menampilkan menu
+        function displayMenu(category = 'all') {
+            const menuAll = document.getElementById('menu-all');
+            const menuMakanan = document.getElementById('menu-makanan');
+            const menuMinuman = document.getElementById('menu-minuman');
+            const menuDessert = document.getElementById('menu-dessert');
+
+            const filteredMenu = category === 'all' ? menu : menu.filter(item => item.category === category);
+            const containers = { all: menuAll, makanan: menuMakanan, minuman: menuMinuman, dessert: menuDessert };
+
+            Object.values(containers).forEach(container => container.innerHTML = '');
+
+            filteredMenu.forEach(item => {
+                const html = `
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="${item.image}" class="card-img-top menu-img" alt="${item.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.name}</h5>
+                                <p class="card-text">Rp ${item.price.toLocaleString()}</p>
+                                <button class="btn btn-primary add-to-cart" data-id="${item.id}">Tambah ke Keranjang</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                if (category === 'all') {
+                    containers.all.innerHTML += html;
+                    containers[item.category].innerHTML += html;
+                } else {
+                    containers[category].innerHTML += html;
+                }
+            });
+
+            // Event listener untuk tombol tambah ke keranjang
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const itemId = parseInt(btn.dataset.id);
+                    const item = menu.find(i => i.id === itemId);
+                    const cartItem = cart.find(i => i.id === itemId);
+                    if (cartItem) {
+                        cartItem.quantity += 1;
+                    } else {
+                        cart.push({ ...item, quantity: 1 });
+                    }
+                    updateCart();
+                });
+            });
+        }
+
+        // Fungsi untuk memperbarui keranjang
+        function updateCart() {
+            const cartDiv = document.getElementById('cart');
+            cartDiv.innerHTML = '<h4>Keranjang Belanja</h4>';
+            if (cart.length === 0) {
+                cartDiv.innerHTML += '<p>Keranjang kosong.</p>';
+                return;
+            }
+            let total = 0;
+            cartDiv.innerHTML += '<ul class="list-group mb-3">';
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                cartDiv.innerHTML += `
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        ${item.name} (x${item.quantity})
+                        <span>Rp ${itemTotal.toLocaleString()}</span>
+                        <button class="btn btn-danger btn-sm remove-from-cart" data-id="${item.id}">Hapus</button>
+                    </li>
+                `;
+            });
+            cartDiv.innerHTML += `</ul><h5 class="mt-3">Total: Rp ${total.toLocaleString()}</h5>`;
+
+            // Event listener untuk tombol hapus
+            document.querySelectorAll('.remove-from-cart').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const itemId = parseInt(btn.dataset.id);
+                    cart = cart.filter(i => i.id !== itemId);
+                    updateCart();
+                });
+            });
+        }
+
+        // Fungsi untuk memesan
+        async function placeOrder() {
+            const customerName = document.getElementById('customer-name').value.trim();
+            const cartDiv = document.getElementById('cart');
+            const loading = document.getElementById('loading');
+            if (!customerName) {
+                cartDiv.innerHTML += '<div class="alert alert-warning mt-3">Masukkan nama pelanggan.</div>';
+                return;
+            }
+            if (cart.length === 0) {
+                cartDiv.innerHTML += '<div class="alert alert-warning mt-3">Keranjang kosong, tambahkan item terlebih dahulu.</div>';
+                return;
+            }
+            loading.classList.remove('d-none');
+            try {
+                // Ambil data pesanan yang ada
+                const response = await fetchWithTimeout(JSONBIN_URL, {
+                    headers: { 'X-Master-Key': JSONBIN_SECRET_KEY }
+                });
+                if (!response.ok) throw new Error('Gagal mengambil data pesanan');
+                const data = await response.json();
+                const orders = data.record.orders || [];
+
+                // Tambah pesanan baru
+                const order = {
+                    id: Date.now().toString(),
+                    customerName,
+                    items: [...cart],
+                    status: 'menunggu',
+                    createdAt: new Date().toISOString()
+                };
+                orders.push(order);
+
+                // Update data di JSONBin
+                const updateResponse = await fetchWithTimeout(JSONBIN_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_SECRET_KEY
+                    },
+                    body: JSON.stringify({ orders })
+                });
+                if (!updateResponse.ok) throw new Error('Gagal menyimpan pesanan');
+
+                cart = [];
+                document.getElementById('customer-name').value = '';
+                updateCart();
+                updateBuyerOrders();
+                updateAdminOrders();
+                cartDiv.innerHTML += '<div class="alert alert-success mt-3">Pesanan berhasil dibuat!</div>';
+            } catch (error) {
+                cartDiv.innerHTML += `<div class="alert alert-danger mt-3">Error: ${error.message}</div>`;
+            } finally {
+                loading.classList.add('d-none');
+            }
+        }
+
+        // Fungsi untuk menampilkan pesanan pembeli
+        async function updateBuyerOrders() {
+            const ordersDiv = document.getElementById('buyer-orders');
+            const loading = document.getElementById('loading');
+            ordersDiv.innerHTML = '';
+            loading.classList.remove('d-none');
+            try {
+                const response = await fetchWithTimeout(JSONBIN_URL, {
+                    headers: { 'X-Master-Key': JSONBIN_SECRET_KEY }
+                });
+                if (!response.ok) throw new Error('Gagal mengambil data pesanan');
+                const data = await response.json();
+                const orders = data.record.orders || [];
+                if (orders.length === 0) {
+                    ordersDiv.innerHTML = '<p>Belum ada pesanan.</p>';
+                    return;
+                }
+                orders.forEach(order => {
+                    let total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                    ordersDiv.innerHTML += `
+                        <div class="list-group-item">
+                            <h5>Pesanan #${order.id} (${order.status})</h5>
+                            <p><strong>Pelanggan:</strong> ${order.customerName}</p>
+                            <p><strong>Dibuat:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+                            <ul>
+                                ${order.items.map(item => `<li>${item.name} (x${item.quantity}) - Rp ${(item.price * item.quantity).toLocaleString()}</li>`).join('')}
+                            </ul>
+                            <p><strong>Total:</strong> Rp ${total.toLocaleString()}</p>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                ordersDiv.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+            } finally {
+                loading.classList.add('d-none');
+            }
+        }
+
+        // Fungsi untuk menampilkan pesanan admin
+        async function updateAdminOrders() {
+            const ordersDiv = document.getElementById('admin-orders');
+            const loading = document.getElementById('loading');
+            ordersDiv.innerHTML = '';
+            if (!isAdminLoggedIn) {
+                ordersDiv.innerHTML = '<div class="alert alert-warning">Silakan login sebagai admin untuk melihat pesanan.</div>';
+                return;
+            }
+            loading.classList.remove('d-none');
+            try {
+                const response = await fetchWithTimeout(JSONBIN_URL, {
+                    headers: { 'X-Master-Key': JSONBIN_SECRET_KEY }
+                });
+                if (!response.ok) throw new Error('Gagal mengambil data pesanan');
+                const data = await response.json();
+                const orders = data.record.orders || [];
+                if (orders.length === 0) {
+                    ordersDiv.innerHTML = '<p>Belum ada pesanan.</p>';
+                    return;
+                }
+                orders.forEach(order => {
+                    let total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                    ordersDiv.innerHTML += `
+                        <div class="list-group-item">
+                            <h5>Pesanan #${order.id} (${order.status})</h5>
+                            <p><strong>Pelanggan:</strong> ${order.customerName}</p>
+                            <p><strong>Dibuat:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+                            <ul>
+                                ${order.items.map(item => `<li>${item.name} (x${item.quantity}) - Rp ${(item.price * item.quantity).toLocaleString()}</li>`).join('')}
+                            </ul>
+                            <p><strong>Total:</strong> Rp ${total.toLocaleString()}</p>
+                            ${order.status !== 'siap' ? `<button class="btn btn-success confirm-order" data-id="${order.id}">Konfirmasi Siap</button>` : ''}
+                        </div>
+                    `;
+                });
+
+                // Event listener untuk tombol konfirmasi
+                document.querySelectorAll('.confirm-order').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const orderId = btn.dataset.id;
+                        try {
+                            const response = await fetchWithTimeout(JSONBIN_URL, {
+                                headers: { 'X-Master-Key': JSONBIN_SECRET_KEY }
+                            });
+                            if (!response.ok) throw new Error('Gagal mengambil data pesanan');
+                            const data = await response.json();
+                            const orders = data.record.orders || [];
+                            const order = orders.find(o => o.id === orderId);
+                            if (order) {
+                                order.status = 'siap';
+                                const updateResponse = await fetchWithTimeout(JSONBIN_URL, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-Master-Key': JSONBIN_SECRET_KEY
+                                    },
+                                    body: JSON.stringify({ orders })
+                                });
+                                if (!updateResponse.ok) throw new Error('Gagal memperbarui pesanan');
+                                updateAdminOrders();
+                                updateBuyerOrders();
+                            }
+                        } catch (error) {
+                            ordersDiv.innerHTML += `<div class="alert alert-danger">Error: ${error.message}</div>`;
+                        }
+                    });
+                });
+            } catch (error) {
+                ordersDiv.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+            } finally {
+                loading.classList.add('d-none');
+            }
+        }
+
+        // Fungsi untuk login admin
+        function loginAdmin() {
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+            const loginError = document.getElementById('login-error');
+            if (username === adminCredentials.username && password === adminCredentials.password) {
+                isAdminLoggedIn = true;
+                loginError.classList.add('d-none');
+                document.getElementById('login-btn').textContent = 'Logout Admin';
+                updateAdminOrders();
+                bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+            } else {
+                loginError.classList.remove('d-none');
+            }
+        }
+
+        // Fungsi untuk mengganti tema
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        }
+
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', () => {
+            // Terapkan tema
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-theme');
+            }
+
+            // Tampilkan menu dan keranjang
+            displayMenu('all');
+            updateCart();
+            updateBuyerOrders();
+            updateAdminOrders();
+
+            // Event listener untuk tab menu
+            document.querySelectorAll('#menuTab .nav-link').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const category = tab.id.split('-')[0];
+                    displayMenu(category);
+                });
+            });
+
+            // Event listener untuk pesan sekarang
+            document.getElementById('place-order-btn').addEventListener('click', placeOrder);
+
+            // Event listener untuk login admin
+            document.getElementById('submit-login').addEventListener('click', loginAdmin);
+
+            // Event listener untuk login/logout
+            document.getElementById('login-btn').addEventListener('click', () => {
+                if (isAdminLoggedIn) {
+                    isAdminLoggedIn = false;
+                    document.getElementById('login-btn').textContent = 'Login Admin';
+                    updateAdminOrders();
+                }
+            });
+
+            // Event listener untuk tombol tema
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
+            // Event listener untuk tombol Enter pada input nama
+            document.getElementById('customer-name').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') document.getElementById('place-order-btn').click();
+            });
+        });
+    </script>
+</body>
+</html>
