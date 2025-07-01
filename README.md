@@ -1,1 +1,1 @@
-# restaurant-web
+dibuat 100% menggunakan AI.
