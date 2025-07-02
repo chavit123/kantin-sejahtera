@@ -27,17 +27,31 @@
       box-shadow: none;
     }
 
-    .btn {
-      background-color: #ffc107;
-      color: #000;
-      font-size: 10px;
-      padding: 8px 12px;
+    .btn-primary, .btn-warning {
+      background-color: #007bff;
+      color: #fff;
       border: 2px solid #fff;
     }
 
-    .btn:hover {
-      background-color: #ff9800;
+    .btn-primary:hover, .btn-warning:hover {
+      background-color: #0056b3;
       color: #fff;
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      color: #fff;
+      border: 2px solid #fff;
+    }
+
+    .btn-danger:hover {
+      background-color: #b02a37;
+      color: #fff;
+    }
+
+    .list-group-item.bg-success {
+      background-color: #28a745 !important;
+      color: #fff !important;
     }
 
     .menu-img {
@@ -58,26 +72,41 @@
 
     input.form-control {
       font-size: 9px;
+      border: 2px solid #fff;
     }
-.navbar {
-  border-bottom: 3px solid #fff;
-}
-.navbar-brand, .navbar-nav .nav-link {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 10px;
-}
-.navbar-dark .navbar-nav .nav-link {
-  color: #fff;
-}
-.navbar-dark .navbar-nav .nav-link:hover {
-  color: #ffc107;
-}
+
+    .navbar {
+      border-bottom: 3px solid #fff;
+    }
+
+    .navbar-brand, .navbar-nav .nav-link {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px;
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+      color: #fff;
+    }
+
+    .navbar-dark .navbar-nav .nav-link:hover {
+      color: #007bff;
+    }
+
+    /* Area konten tab */
+    .tab-content {
+      max-height: 70vh;
+      overflow-y: auto;
+      padding: 15px;
+    }
   </style>
 </head>
 <body class="dark-theme">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Kantin Sejahtera</a>
+      <a class="navbar-brand" href="#">
+        <img src="https://i.ibb.co/N2XxLLrw/Photoroom-20250702-080304409.png" alt="Kantin Sejahtera Logo" style="height: 30px; margin-right: 10px;">
+        Kantin Sejahtera
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -96,8 +125,7 @@
   <audio id="click-sound" src="https://raw.githubusercontent.com/jwilber/retro-sound-effects/master/audio/menu-3.wav"></audio>
 
   <div class="container mt-4">
-    <h1 class="mb-4">Kantin Sejahtera</h1>
-
+    <!-- Tab Navigasi -->
     <ul class="nav nav-pills mb-3" id="menuTab" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" id="all-tab" data-bs-toggle="pill" data-bs-target="#all" type="button">Semua</button>
@@ -111,22 +139,43 @@
       <li class="nav-item" role="presentation">
         <button class="nav-link" id="dessert-tab" data-bs-toggle="pill" data-bs-target="#dessert" type="button">Penutup</button>
       </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="cart-tab" data-bs-toggle="pill" data-bs-target="#cart-pane" type="button">Keranjang</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="orders-tab" data-bs-toggle="pill" data-bs-target="#orders-pane" type="button">Antrian Pesanan</button>
+      </li>
     </ul>
 
+    <!-- Konten Tab -->
     <div class="tab-content" id="menuTabContent">
       <div class="tab-pane fade show active" id="all"><div id="menu-all" class="row"></div></div>
       <div class="tab-pane fade" id="makanan"><div id="menu-makanan" class="row"></div></div>
       <div class="tab-pane fade" id="minuman"><div id="menu-minuman" class="row"></div></div>
       <div class="tab-pane fade" id="dessert"><div id="menu-dessert" class="row"></div></div>
+      <div class="tab-pane fade" id="cart-pane">
+        <div id="cart" class="card p-4 mb-4"></div>
+        <button id="place-order-btn" class="btn btn-primary mb-4">Pesan Sekarang</button>
+      </div>
+      <div class="tab-pane fade" id="orders-pane">
+        <ul class="nav nav-pills mb-3" id="orderStatusTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="order-all-tab" data-bs-toggle="pill" data-bs-target="#order-all" type="button">Semua</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="order-menunggu-tab" data-bs-toggle="pill" data-bs-target="#order-menunggu" type="button">Menunggu</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="order-siap-tab" data-bs-toggle="pill" data-bs-target="#order-siap" type="button">Siap</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="orderStatusTabContent">
+          <div class="tab-pane fade show active" id="order-all"><div id="order-all-list" class="list-group"></div></div>
+          <div class="tab-pane fade" id="order-menunggu"><div id="order-menunggu-list" class="list-group"></div></div>
+          <div class="tab-pane fade" id="order-siap"><div id="order-siap-list" class="list-group"></div></div>
+        </div>
+      </div>
     </div>
-
-    <h3 class="mt-4">Keranjang</h3>
-    <input type="text" id="customer-name" class="form-control mb-3" placeholder="Masukkan nama Anda"/>
-    <div id="cart" class="card p-4 mb-4"></div>
-    <button id="place-order-btn" class="btn btn-warning mb-4">Pesan Sekarang</button>
-
-    <h3>Antrian Pesanan</h3>
-    <div id="buyer-orders" class="list-group"></div>
 
     <div id="loading" class="text-center d-none mt-4">
       <div class="spinner-border" role="status">
@@ -140,7 +189,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
     const clickSound = document.getElementById('click-sound');
     function playClickSound() {
@@ -148,261 +196,276 @@
       clickSound.play();
     }
 
-    // Aktifkan suara klik untuk semua tombol
     document.addEventListener('click', (e) => {
       if (e.target.tagName === 'BUTTON' || e.target.classList.contains('btn')) {
         playClickSound();
       }
     });
 
-    // Fungsi-fungsi backend tetap sama
     const JSONBIN_URL = 'https://api.jsonbin.io/v3/b/68620a988960c979a5b43337';
     const JSONBIN_SECRET_KEY = '$2a$10$zTy9l1VFkMjbE88RFz8QW.vcNao25h6UCa0kd3YjS7QoJyJykJX/S';
 
-    const menu = [
-      { id: 1, name: "Nasi Goreng", price: 25000, category: "makanan", image: "https://i.ibb.co/yFDyZbfC/Photoroom-20250701-203147589.png" },
-      { id: 2, name: "Ayam Bakar", price: 30000, category: "makanan", image: "https://i.ibb.co/PsRv1ZVp/Photoroom-20250701-203413256.png" },
-      { id: 3, name: "Soto Ayam", price: 20000, category: "makanan", image: "https://i.ibb.co/v6srg6nr/Photoroom-20250701-213319616.png" },
-      { id: 4, name: "Rendang", price: 35000, category: "makanan", image: "https://i.ibb.co/6cnKYx75/Photoroom-20250701-203548885.png" },
-      { id: 5, name: "Es Teh", price: 10000, category: "minuman", image: "https://i.ibb.co/5ghkz4Qv/Photoroom-20250701-204302869.png" },
-      { id: 6, name: "Jus Jeruk", price: 12000, category: "minuman", image: "https://i.ibb.co/hRVtXwc5/Photoroom-20250701-203948572.png" },
-      { id: 7, name: "Kopi Susu", price: 15000, category: "minuman", image: "https://i.ibb.co/cchk01v5/Photoroom-20250701-204421602.png" },
-      { id: 8, name: "Teh Tarik", price: 13000, category: "minuman", image: "https://i.ibb.co/1GG5FzJF/Photoroom-20250701-204211230.png" },
-      { id: 9, name: "Puding Cokelat", price: 18000, category: "dessert", image: "https://i.ibb.co/b5ZCXCdH/Photoroom-20250701-210045452.png" },
-      { id: 10, name: "Es Krim Vanila", price: 20000, category: "dessert", image: "https://i.ibb.co/LVx5Fn5/Photoroom-20250701-210009594.png" },
-      { id: 11, name: "Kue Lapis", price: 15000, category: "dessert", image: "https://i.ibb.co/tp3GSL1q/Photoroom-20250701-204633651.png" },
-      { id: 12, name: "Pisang Goreng", price: 12000, category: "dessert", image: "https://i.ibb.co/5XLHHbs4/Photoroom-20250701-204524492.png" }
-    ];
-
     let cart = [];
 
-        // Fungsi untuk fetch dengan timeout
-        async function fetchWithTimeout(url, options, timeout = 10000) {
-            return Promise.race([
-                fetch(url, options),
-                new Promise((_, reject) =>
-                    setTimeout(() => reject(new Error('Permintaan ke API terlalu lama (timeout)')), timeout)
-                )
-            ]);
-        }
+    async function fetchWithTimeout(url, options, timeout = 5000) {
+      return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Permintaan ke API terlalu lama (timeout)')), timeout)
+        )
+      ]);
+    }
 
-        // Fungsi untuk menampilkan menu
-        function displayMenu(category = 'all') {
-            console.log(`Displaying menu for category: ${category}`);
-            const menuAll = document.getElementById('menu-all');
-            const menuMakanan = document.getElementById('menu-makanan');
-            const menuMinuman = document.getElementById('menu-minuman');
-            const menuDessert = document.getElementById('menu-dessert');
+    async function displayMenu(category = 'all') {
+      console.log(`Displaying menu for category: ${category}`);
+      const menuAll = document.getElementById('menu-all');
+      const menuMakanan = document.getElementById('menu-makanan');
+      const menuMinuman = document.getElementById('menu-minuman');
+      const menuDessert = document.getElementById('menu-dessert');
+      const containers = { all: menuAll, makanan: menuMakanan, minuman: menuMinuman, dessert: menuDessert };
 
-            const filteredMenu = category === 'all' ? menu : menu.filter(item => item.category === category);
-            console.log(`Filtered menu items: ${filteredMenu.length}`);
-            const containers = { all: menuAll, makanan: menuMakanan, minuman: menuMinuman, dessert: menuDessert };
+      Object.values(containers).forEach(container => {
+        container.innerHTML = '';
+      });
 
-            Object.values(containers).forEach(container => {
-                container.innerHTML = '';
-            });
-
-            filteredMenu.forEach(item => {
-                const html = `
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="${item.image}" class="card-img-top menu-img" alt="${item.name}">
-                            <div class="card-body">
-                                <h5 class="card-title">${item.name}</h5>
-                                <p class="card-text">Rp ${item.price.toLocaleString()}</p>
-                                <button class="btn btn-primary add-to-cart" data-id="${item.id}">Tambah ke Keranjang</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                if (category === 'all') {
-                    containers.all.innerHTML += html;
-                    if (item.category === 'makanan') containers.makanan.innerHTML += html;
-                    if (item.category === 'minuman') containers.minuman.innerHTML += html;
-                    if (item.category === 'dessert') containers.dessert.innerHTML += html;
-                } else {
-                    containers[category].innerHTML += html;
-                }
-            });
-
-            document.querySelectorAll('.add-to-cart').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const itemId = parseInt(btn.dataset.id);
-                    const item = menu.find(i => i.id === itemId);
-                    const cartItem = cart.find(i => i.id === itemId);
-                    if (cartItem) {
-                        cartItem.quantity += 1;
-                    } else {
-                        cart.push({ ...item, quantity: 1 });
-                    }
-                    updateCart();
-                });
-            });
-        }
-
-        // Fungsi untuk memperbarui keranjang
-        function updateCart() {
-            const cartDiv = document.getElementById('cart');
-            cartDiv.innerHTML = '<h4>Keranjang Belanja</h4>';
-            if (cart.length === 0) {
-                cartDiv.innerHTML += '<p>Keranjang kosong.</p>';
-                return;
-            }
-            let total = 0;
-            cartDiv.innerHTML += '<ul class="list-group mb-3">';
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                cartDiv.innerHTML += `
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        ${item.name} (x${item.quantity})
-                        <span>Rp ${itemTotal.toLocaleString()}</span>
-                        <button class="btn btn-danger btn-sm remove-from-cart" data-id="${item.id}">Hapus</button>
-                    </li>
-                `;
-            });
-            cartDiv.innerHTML += `</ul><h5 class="mt-3">Total: Rp ${total.toLocaleString()}</h5>`;
-
-            document.querySelectorAll('.remove-from-cart').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const itemId = parseInt(btn.dataset.id);
-                    cart = cart.filter(i => i.id !== itemId);
-                    updateCart();
-                });
-            });
-        }
-
-        // Fungsi untuk memesan
-        async function placeOrder() {
-            const customerName = document.getElementById('customer-name').value.trim();
-            const cartDiv = document.getElementById('cart');
-            const loading = document.getElementById('loading');
-            if (!customerName) {
-                cartDiv.innerHTML += '<div class="alert alert-warning mt-3">Masukkan nama pelanggan.</div>';
-                return;
-            }
-            if (cart.length === 0) {
-                cartDiv.innerHTML += '<div class="alert alert-warning mt-3">Keranjang kosong, tambahkan item terlebih dahulu.</div>';
-                return;
-            }
-            loading.classList.remove('d-none');
-            try {
-                const response = await fetchWithTimeout(JSONBIN_URL, {
-                    headers: { 'X-Master-Key': JSONBIN_SECRET_KEY }
-                });
-                if (!response.ok) throw new Error('Gagal mengambil data pesanan');
-                const data = await response.json();
-                const orders = data.record.orders || [];
-
-                const order = {
-                    id: Date.now().toString(),
-                    customerName,
-                    items: [...cart],
-                    status: 'menunggu',
-                    createdAt: new Date().toISOString()
-                };
-                orders.push(order);
-
-                const updateResponse = await fetchWithTimeout(JSONBIN_URL, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': JSONBIN_SECRET_KEY
-                    },
-                    body: JSON.stringify({ orders })
-                });
-                if (!updateResponse.ok) throw new Error('Gagal menyimpan pesanan');
-
-                cart = [];
-                document.getElementById('customer-name').value = '';
-                updateCart();
-                updateBuyerOrders();
-                cartDiv.innerHTML += '<div class="alert alert-success mt-3">Pesanan berhasil dibuat!</div>';
-            } catch (error) {
-                cartDiv.innerHTML += `<div class="alert alert-danger mt-3">Error: ${error.message}</div>`;
-            } finally {
-                loading.classList.add('d-none');
-            }
-        }
-
-        // Fungsi untuk menampilkan pesanan pembeli
-        async function updateBuyerOrders() {
-            const ordersDiv = document.getElementById('buyer-orders');
-            const loading = document.getElementById('loading');
-            ordersDiv.innerHTML = '';
-            loading.classList.remove('d-none');
-            try {
-                const response = await fetchWithTimeout(JSONBIN_URL, {
-                    headers: { 'X-Master-Key': JSONBIN_SECRET_KEY }
-                });
-                if (!response.ok) throw new Error('Gagal mengambil data pesanan');
-                const data = await response.json();
-                let orders = data.record.orders || [];
-                if (orders.length === 0) {
-                    ordersDiv.innerHTML = '<p>Belum ada pesanan.</p>';
-                    return;
-                }
-                orders = orders.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-                orders.forEach((order, index) => {
-                    let total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-                    const statusClass = order.status === 'siap' ? 'bg-success text-white' : '';
-                    ordersDiv.innerHTML += `
-                        <div class="list-group-item ${statusClass}">
-                            <h5>Pesanan #${index + 1} (${order.status})</h5>
-                            <p><strong>Pelanggan:</strong> ${order.customerName}</p>
-                            <p><strong>Dibuat:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
-                            <ul>
-                                ${order.items.map(item => `<li>${item.name} (x${item.quantity}) - Rp ${(item.price * item.quantity).toLocaleString()}</li>`).join('')}
-                            </ul>
-                            <p><strong>Total:</strong> Rp ${total.toLocaleString()}</p>
-                        </div>
-                    `;
-                });
-            } catch (error) {
-                ordersDiv.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
-            } finally {
-                loading.classList.add('d-none');
-            }
-        }
-
-// Cek login
-document.addEventListener('DOMContentLoaded', () => {
-  const user = JSON.parse(localStorage.getItem('loggedInUser'));
-  if (!user || user.role !== 'pembeli') {
-    window.location.href = 'login.html';
-  }
-  document.getElementById('userName').textContent = user.username;
-});
-
-// Logout
-document.getElementById('logout-btn').addEventListener('click', () => {
-  localStorage.removeItem('loggedInUser');
-  window.location.href = 'login.html';
-});
-
-        // Inisialisasi
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark-theme');
-            }
-            displayMenu('all');
-            updateCart();
-            updateBuyerOrders();
-
-            document.querySelectorAll('#menuTab .nav-link').forEach(tab => {
-                tab.addEventListener('shown.bs.tab', (e) => {
-                    const category = e.target.id.split('-')[0];
-                    console.log(`Tab changed to: ${category}`);
-                    displayMenu(category);
-                });
-            });
-
-            document.getElementById('place-order-btn').addEventListener('click', placeOrder);
-            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-            document.getElementById('customer-name').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') document.getElementById('place-order-btn').click();
-            });
+      try {
+        const response = await fetchWithTimeout(JSONBIN_URL, {
+          headers: { 'X-Master-Key': JSONBIN_SECRET_KEY }
         });
+        if (!response.ok) throw new Error('Gagal mengambil data menu');
+        const data = await response.json();
+        let menu = data.record.menu || [];
+        const filteredMenu = category === 'all' ? menu : menu.filter(item => item.category === category);
+
+        if (filteredMenu.length === 0) {
+          containers[category].innerHTML = '<p>Belum ada menu.</p>';
+          return;
+        }
+
+        filteredMenu.forEach(item => {
+          const html = `
+            <div class="col-md-3 col-6 mb-4">
+              <div class="card">
+                <img src="${item.image}" class="card-img-top menu-img" alt="${item.name}">
+                <div class="card-body">
+                  <h5 class="card-title">${item.name}</h5>
+                  <p class="card-text">Rp ${item.price.toLocaleString()}</p>
+                  <button class="btn btn-primary add-to-cart" data-id="${item.id}">Tambah ke Keranjang</button>
+                </div>
+              </div>
+            </div>
+          `;
+          if (category === 'all') {
+            containers.all.innerHTML += html;
+            if (item.category === 'makanan') containers.makanan.innerHTML += html;
+            if (item.category === 'minuman') containers.minuman.innerHTML += html;
+            if (item.category === 'dessert') containers.dessert.innerHTML += html;
+          } else {
+            containers[category].innerHTML += html;
+          }
+        });
+
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const itemId = btn.dataset.id;
+            const item = menu.find(i => i.id === itemId);
+            const cartItem = cart.find(i => i.id === itemId);
+            if (cartItem) {
+              cartItem.quantity += 1;
+            } else {
+              cart.push({ ...item, quantity: 1 });
+            }
+            updateCart();
+          });
+        });
+      } catch (error) {
+        containers[category].innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+      }
+    }
+
+    function updateCart() {
+      const cartDiv = document.getElementById('cart');
+      cartDiv.innerHTML = '<h4>Keranjang Belanja</h4>';
+      if (cart.length === 0) {
+        cartDiv.innerHTML += '<p>Keranjang kosong.</p>';
+        return;
+      }
+      let total = 0;
+      cartDiv.innerHTML += '<ul class="list-group mb-3">';
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        cartDiv.innerHTML += `
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            ${item.name} (x${item.quantity})
+            <span>Rp ${itemTotal.toLocaleString()}</span>
+            <button class="btn btn-danger btn-sm remove-from-cart" data-id="${item.id}">Hapus</button>
+          </li>
+        `;
+      });
+      cartDiv.innerHTML += `</ul><h5 class="mt-3">Total: Rp ${total.toLocaleString()}</h5>`;
+
+      document.querySelectorAll('.remove-from-cart').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const itemId = btn.dataset.id;
+          cart = cart.filter(i => i.id !== itemId);
+          updateCart();
+        });
+      });
+    }
+
+    async function placeOrder() {
+      const user = JSON.parse(localStorage.getItem('loggedInUser'));
+      const customerName = user.username;
+      const cartDiv = document.getElementById('cart');
+      const loading = document.getElementById('loading');
+
+      if (cart.length === 0) {
+        cartDiv.innerHTML += '<div class="alert alert-warning mt-3">Keranjang kosong, tambahkan item terlebih dahulu.</div>';
+        return;
+      }
+      loading.classList.remove('d-none');
+      try {
+        const response = await fetchWithTimeout(JSONBIN_URL, {
+          headers: { 'X-Master-Key': JSONBIN_SECRET_KEY }
+        });
+        if (!response.ok) throw new Error('Gagal mengambil data pesanan');
+        const data = await response.json();
+        let record = data.record || { users: [], orders: [], menu: [] };
+        let orders = record.orders || [];
+
+        const order = {
+          id: Date.now().toString(),
+          customerName,
+          items: [...cart],
+          status: 'menunggu',
+          createdAt: new Date().toISOString()
+        };
+        orders.push(order);
+        record.orders = orders;
+
+        const updateResponse = await fetchWithTimeout(JSONBIN_URL, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': JSONBIN_SECRET_KEY
+          },
+          body: JSON.stringify(record)
+        });
+        if (!updateResponse.ok) throw new Error('Gagal menyimpan pesanan');
+
+        cart = [];
+        updateCart();
+        updateBuyerOrders('all');
+        cartDiv.innerHTML += '<div class="alert alert-success mt-3">Pesanan berhasil dibuat!</div>';
+      } catch (error) {
+        cartDiv.innerHTML += `<div class="alert alert-danger mt-3">Error: ${error.message}</div>`;
+      } finally {
+        loading.classList.add('d-none');
+      }
+    }
+
+    async function updateBuyerOrders(status = 'all') {
+      const orderAll = document.getElementById('order-all-list');
+      const orderMenunggu = document.getElementById('order-menunggu-list');
+      const orderSiap = document.getElementById('order-siap-list');
+      const containers = { all: orderAll, menunggu: orderMenunggu, siap: orderSiap };
+      const loading = document.getElementById('loading');
+
+      Object.values(containers).forEach(container => {
+        container.innerHTML = '';
+      });
+
+      loading.classList.remove('d-none');
+      try {
+        const response = await fetchWithTimeout(JSONBIN_URL, {
+          headers: { 'X-Master-Key': JSONBIN_SECRET_KEY }
+        });
+        if (!response.ok) throw new Error('Gagal mengambil data pesanan');
+        const data = await response.json();
+        let record = data.record || { users: [], orders: [], menu: [] };
+        let orders = record.orders || [];
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
+        orders = orders.filter(order => order.customerName === user.username);
+        const filteredOrders = status === 'all' ? orders : orders.filter(order => order.status === status);
+
+        if (filteredOrders.length === 0) {
+          containers[status].innerHTML = '<p>Belum ada pesanan.</p>';
+          return;
+        }
+
+        filteredOrders.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).forEach((order, index) => {
+          let total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+          const statusClass = order.status === 'siap' ? 'bg-success text-white' : '';
+          const html = `
+            <div class="list-group-item ${statusClass}">
+              <h5>Pesanan #${index + 1} (${order.status})</h5>
+              <p><strong>Pelanggan:</strong> ${order.customerName}</p>
+              <p><strong>Dibuat:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+              <ul>
+                ${order.items.map(item => `<li>${item.name} (x${item.quantity}) - Rp ${(item.price * item.quantity).toLocaleString()}</li>`).join('')}
+              </ul>
+              <p><strong>Total:</strong> Rp ${total.toLocaleString()}</p>
+            </div>
+          `;
+          if (status === 'all') {
+            containers.all.innerHTML += html;
+            if (order.status === 'menunggu') containers.menunggu.innerHTML += html;
+            if (order.status === 'siap') containers.siap.innerHTML += html;
+          } else {
+            containers[status].innerHTML += html;
+          }
+        });
+      } catch (error) {
+        containers[status].innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+      } finally {
+        loading.classList.add('d-none');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = JSON.parse(localStorage.getItem('loggedInUser'));
+      if (!user || user.role !== 'pembeli') {
+        window.location.href = 'login.html';
+      }
+      document.getElementById('userName').textContent = user.username;
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-theme');
+      }
+      displayMenu('all');
+      updateCart();
+      updateBuyerOrders('all');
+
+      document.querySelectorAll('#menuTab .nav-link').forEach(tab => {
+        tab.addEventListener('shown.bs.tab', (e) => {
+          const tabId = e.target.id.split('-')[0];
+          console.log(`Tab changed to: ${tabId}`);
+          if (tabId === 'cart') {
+            updateCart();
+          } else if (tabId === 'orders') {
+            const activeStatusTab = document.querySelector('#orderStatusTab .nav-link.active');
+            const status = activeStatusTab ? activeStatusTab.id.split('-')[1] : 'all';
+            updateBuyerOrders(status);
+          } else {
+            displayMenu(tabId);
+          }
+        });
+      });
+
+      document.querySelectorAll('#orderStatusTab .nav-link').forEach(tab => {
+        tab.addEventListener('shown.bs.tab', (e) => {
+          const status = e.target.id.split('-')[1];
+          updateBuyerOrders(status);
+        });
+      });
+
+      document.getElementById('place-order-btn').addEventListener('click', placeOrder);
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+    });
   </script>
 </body>
 </html>
