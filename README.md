@@ -1,5 +1,3 @@
----
-
 ## 🕹️ Kantin Sejahtera - Sistem Pemesanan Makanan Bergaya Pixel Retro
 
 **Kantin Sejahtera** adalah aplikasi web pemesanan makanan digital dengan nuansa retro bergaya *pixel art* dan *dark mode*. Aplikasi ini dilengkapi suara klik klasik dan navigasi tab interaktif yang ramah pengguna. Cocok untuk simulasi kantin sekolah, pelatihan front-end, atau eksplorasi antarmuka bertema unik.
